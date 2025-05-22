@@ -9,3 +9,17 @@ python only_lite_convert.py -model vertex.hdf5 -param ../data/vertex.params.json
 wait
 python -u check_prediction_time.py -gpu 0 -model vertex.hdf5 -model_name LSTM_multi -data ../data/vertex.npy -data_params ../data/vertex.params.json -model_path lite.h52048vertex.hdf5 -table_file table200m.params.json
 wait
+
+gzip vertex.hdf5
+wait
+rm lite.h52048vertex.hdf5
+wait
+rm ../data/vertex.npy
+wait
+gzip ../data/vertex.params.json
+wait
+gzip table.params.json
+wait
+rm ../data/edges.npy
+wait
+gzip ../data/edges.txt
