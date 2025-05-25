@@ -1,4 +1,3 @@
-# 将 keras 模型转换为 tf lite 格式，更小且运行更快
 keras_file="./lite.h5"
 import keras
 import json

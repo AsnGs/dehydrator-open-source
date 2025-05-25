@@ -35,7 +35,6 @@ formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datef
 file_handler.setFormatter(formatter)
 logger.addHandler(file_handler)
 
-# 获取所有的 key:value 值, 同时保存特定type 的最小值
 def get_dict_allkeys_values(dict_a,values,mins):
         for x in range(len(dict_a)):
             temp_key = list(dict_a.keys())[x]
@@ -79,7 +78,7 @@ def count():
     for i in range(len(data)):
         json_obj={}
         tmpdata=data[i]
-        for j in range(len(key)):  # -1 -> -2，不再记录 src,dst（已经在 uuid 中记录）
+        for j in range(len(key)):
             if tmpdata[j]!='':
                 json_obj[key[j]]=tmpdata[j]
         values=get_dict_allkeys_values(json_obj,values,mins)
@@ -87,7 +86,7 @@ def count():
     return values,mins
 
 key_template_dict={}
-# 对边进行编码
+
 def handle_normal(json_obj,char2id_dict,id2char_dict,mins,re_values,key_template_dict,edges,flag=0):
     data_processed_=[]
     temp_value=''
@@ -97,13 +96,13 @@ def handle_normal(json_obj,char2id_dict,id2char_dict,mins,re_values,key_template
         temp_value='eventid:'+str(len(edges[0]))
         child=re_values['uuid'][json_obj['dst']]
         parent=re_values['uuid'][json_obj['src']]
-        edges[0].append(child)  # 如果是边就存在 edges[0][1]中
+        edges[0].append(child) 
         edges[1].append(parent)
     elif 'uuid' in tmplist:      # node_hash
         temp_key='uuid'
-        temp_value='verteid:'+str(re_values[temp_key][json_obj[temp_key]]) # 该 json_obj 对应的 hash 对应的 index，并构建 verteid:index
+        temp_value='verteid:'+str(re_values[temp_key][json_obj[temp_key]])
 
-    for temp_char in str(temp_value):   # 根据字符编码
+    for temp_char in str(temp_value):  
         if temp_char not in char2id_dict:
             end=len(char2id_dict)+2
             char2id_dict[temp_char]=end
@@ -111,8 +110,7 @@ def handle_normal(json_obj,char2id_dict,id2char_dict,mins,re_values,key_template
             data_processed_.append(end)
         else:
             data_processed_.append(char2id_dict[temp_char])
-    data_processed_.append(0)  # 0作为分隔符？
-    # 属性组合模板字典（不同json 可能有的属性组合不同，因为数据丢失）
+    data_processed_.append(0)  
     if ','.join(tmplist) not in key_template_dict.keys(): 
         key_template_dict[','.join(tmplist)]=len(key_template_dict.keys())
     key_indx=str(key_template_dict[','.join(tmplist)])
@@ -126,7 +124,7 @@ def handle_normal(json_obj,char2id_dict,id2char_dict,mins,re_values,key_template
     data_processed_.append(0)
 
     for temp_key in tmplist:
-        if temp_key=='uuid' or temp_key=='src' or temp_key=='dst':  # 上面处理过了, 传入的 src,dst 不需要编码，因为已经存在 edges 中了
+        if temp_key=='uuid' or temp_key=='src' or temp_key=='dst': 
             continue  
         if temp_key =='timestamp':
             temp_value=str(int(json_obj[temp_key])-mins[0])
@@ -142,7 +140,7 @@ def handle_normal(json_obj,char2id_dict,id2char_dict,mins,re_values,key_template
             else:
                 data_processed_.append(char2id_dict[temp_char])
         data_processed_.append(0)
-    data_processed_.append(1)  # 1 作为结尾符
+    data_processed_.append(1)  # 1 as end
     return data_processed_,edges
 import os
 import pickle

@@ -56,7 +56,7 @@ config.gpu_options.allow_growth = True
 sess = tf.compat.v1.Session(config = config)
 tf.compat.v1.keras.backend.set_session(sess)
 from time import *
-def translate_edge(path):  # 一共四行，处理成 edges[[0], [1], [2], [3]]
+def translate_edge(path):
     f=open(path,'r',encoding="unicode_escape")
     strr=f.read()
     strr=strr.split('\n')
@@ -96,8 +96,6 @@ def get_for_presict(queries,timesteps):
         tmp_query.append(np.array(queries[i][len(queries[i])-timesteps:]))
     return tmp_query
 
-# 将query 中每个元素转换成一个可以被模型处理的序列，这个函数会根据元素是定点还是边，添加对应的前缀vertexid:或者 eventid:
-# 然后将id转为字符序列
 def generate_query_counters(query_sequence,counter,flag):
     sentences=[]
     counters=[]
