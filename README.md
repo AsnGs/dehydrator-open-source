@@ -1,3 +1,10 @@
-All code and data in this study will be opensourced upon publication.
+This repository is the open-source release of our work “**DEHYDRATOR: Enhancing Provenance Graph Storage via Hierarchical Encoding and Sequence Generation**”, containing the source code for Dehydrator, a modified version of Leonard, and a portion of the data.
 
-Here we first open-source a modified version of the Leonard code to properly process the datasets in this paper and generate the corresponding models and error correction tables.
+
+@article{ying2025dehydrator,
+  title={DEHYDRATOR: Enhancing Provenance Graph Storage via Hierarchical Encoding and Sequence Generation},
+  author={Ying, Jie and Zhu, Tiantian and Chen, Tieming and Lv, Mingqi},
+  journal={IEEE Transactions on Information Forensics and Security},
+  year={2025},
+  publisher={IEEE}
+}
